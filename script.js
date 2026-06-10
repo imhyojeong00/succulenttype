@@ -1,3 +1,12 @@
+// GitHub Pages 서브디렉토리 지원
+const BASE_PATH = (() => {
+  const pathname = window.location.pathname;
+  if (pathname.includes("succulent-type")) {
+    return "/succulent-type/images/";
+  }
+  return "./images/";
+})();
+
 const IMAGE_CONFIG = {
   A: { scale: 0.69, offsetY: 0 }, B: { scale: 1.0, offsetY: 0 }, C: { scale: 1.5, offsetY: 0 },
   D: { scale: 1.3, offsetY: 0 }, E: { scale: 1.35, offsetY: 0 }, F: { scale: 1.1, offsetY: 0 },
@@ -16,7 +25,7 @@ const IMAGE_CONFIG = {
   A_STACK5: { scale: 0.6, isMutant: true }, Q1: { scale: 0.8, isMutant: true },
   IC_INTER: { scale: 1.3, isMutant: true }, AK_INTER: { scale: 1.3, isMutant: true },
   AK_INTER1: { scale: 1.9, offsetY: -50, isMutant: true }, AB_INTER: { scale: 1.3, offsetY: -10, isMutant: true },
-  AC_COMBO: { scale: 1.8, isMutant: true }, AC_INTER1: { scale: 1.5, offsetY: -60, isMutant: true },
+  AC_COMBO: { scale: 1.0, isMutant: true }, AC_INTER1: { scale: 1.0, offsetY: -60, isMutant: true },
   RANDOM_CHAR: { scale: 0.93, isMutant: true }, DT_INTER: { scale: 1.4, offsetY: -5, isMutant: true },
   HT_INTER: { scale: 0.7, isMutant: true }, DT_DELAYED: { scale: 2.9, offsetY: -90, isMutant: true },
   K_INTER1: { scale: 0.9, isMutant: true }, K_INTER2: { scale: 1.3, isMutant: true }, K_INTER3: { scale: 1.9, isMutant: true },
@@ -404,14 +413,14 @@ function preloadImages() {
           imageCache[name] = img;
         };
 
-        fallback.src = `./images/${fallbackName}.png`;
+        fallback.src = `${BASE_PATH}${fallbackName}.png`;
       } else {
         console.warn("이미지 로드 실패:", name);
         imageCache[name] = img;
       }
     };
 
-    img.src = `./images/${name}.png`;
+    img.src = `${BASE_PATH}${name}.png`;
   });
 }
 
@@ -811,7 +820,7 @@ function createSucculentElement(imgName, x, y, rot, sourceInput = "-", prevInput
     }
 
     img.dataset.fallbackTried = "true";
-    img.src = imageCache[fallbackName]?.src || `./images/${fallbackName}.png`;
+    img.src = imageCache[fallbackName]?.src || `${BASE_PATH}${fallbackName}.png`;
     console.warn(`Missing image: ${imgName}. Fallback to ${fallbackName}.`);
   };
 
@@ -823,7 +832,7 @@ function createSucculentElement(imgName, x, y, rot, sourceInput = "-", prevInput
     img.onload = () => {
       addToStage();
     };
-    img.src = `./images/${imgName}.png`;
+    img.src = `${BASE_PATH}${imgName}.png`;
   }
 }
 
